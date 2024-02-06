@@ -12,12 +12,21 @@ import SendIcon from '@mui/icons-material/Send';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { authLogin } from '@/redux/features/authSlice';
 import { usePrevious } from '@uidotdev/usehooks';
+import styled from '@emotion/styled';
+
+const VerticalCenter = styled('div')({
+  margin: "0",
+  position: "absolute",
+  top: "50%",
+  width: '100%',
+  textAlign: 'center',
+  transform: "translateY(-50%)",
+});
 
 export default function AuthModal() {
 	const isLoading = useAppSelector((state) => state.authReducer.loading);
 	const isLoggedIn = useAppSelector((state) => Boolean(state.authReducer?.data?.token));
 	const isLoggedInPrev = usePrevious(isLoggedIn);
-	// const [postLogin, result] = usePostLoginMutation()
   const dispatch = useAppDispatch();
 
   const [open, setOpen] = useState(false);
@@ -39,9 +48,11 @@ export default function AuthModal() {
   return (
     <Fragment>
 			{!isLoggedIn ? (
-				<Button variant="outlined" onClick={handleClickOpen}>
-					Login
-				</Button>
+        <VerticalCenter>
+          <Button color="primary" variant="contained" onClick={handleClickOpen}>
+            Login
+          </Button>
+        </VerticalCenter>
 			) : null}
       <Dialog
         open={open}

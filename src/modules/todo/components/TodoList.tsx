@@ -17,51 +17,58 @@ import Fab from "@mui/material/Fab";
 import CreateTodoModal from "./CreateTodoModal";
 import UpdateTodoModal from "./UpdateTodoModal";
 import Typography from "@mui/material/Typography";
+import styled from "@emotion/styled";
+
+const FloatingArea = styled('div')({
+  position: 'absolute',
+  top: '2em',
+  right: '2em',
+});
 
 const TodoList = () => {
     const { list, isLoading, refetch } = useTodoList()
     return (
-        <Box sx={{ flexGrow: 1 }}>
-						<Typography align="center" fontWeight="bold" variant="h4" component="h5">
-							TODO LIST
-						</Typography>
-						<center>
-							<Fab size="small" color="default" aria-label="refresh" onClick={refetch}>
-								<RefreshIcon />
-							</Fab>
-						</center>
-						<CreateTodoModal />
-            <Grid item xs={12} md={6}>
-                {isLoading ? (
-                    <TodoListLoadingSkeleton />
-                ) : (
-                <List dense={false}>
-                    {list.map(item => (
-											<ListItem
-												key={item._id}
-												secondaryAction={
-													<Fragment>
-														<UpdateTodoModal data={item} />
-														&nbsp;
-														<DeleteTodoModal data={item} />
-													</Fragment>										
-												}
-												>
-												<ListItemAvatar>
-													<Avatar>
-														<TodayIcon />
-													</Avatar>
-												</ListItemAvatar>
-												<ListItemText
-														primary={item.title}
-														secondary={item.description || null}
-												/>
-											</ListItem>
-                    ))}
-                </List>
-                )}
-            </Grid>
-        </Box>
+      <Box sx={{ flexGrow: 1, paddingTop: '2em' }}>
+				<Typography color="white" align="center" fontWeight="bold" variant="h4" component="h5">
+					TODO LIST
+				</Typography>
+				<FloatingArea>
+					<Fab size="small" color="default" aria-label="refresh" onClick={refetch}>
+						<RefreshIcon />
+					</Fab>
+				</FloatingArea>
+				<CreateTodoModal />
+				<Grid item xs={12} md={6}>
+						{isLoading ? (
+								<TodoListLoadingSkeleton />
+						) : (
+						<List dense={false}>
+								{list.map(item => (
+				<ListItem style={{ background: 'white' }}
+					key={item._id}
+					secondaryAction={
+						<Fragment>
+							<UpdateTodoModal data={item} />
+							&nbsp;
+							<DeleteTodoModal data={item} />
+						</Fragment>										
+					}
+					>
+					<ListItemAvatar>
+						<Avatar>
+							<TodayIcon />
+						</Avatar>
+					</ListItemAvatar>
+					<ListItemText
+							primary={item.title}
+							secondary={item.description || null}
+					/>
+				</ListItem>
+								))}
+						</List>
+						)}
+				</Grid>
+      </Box>
     )
 }
 

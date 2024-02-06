@@ -1,4 +1,3 @@
-// import "./globals.css";
 import { Providers } from "@/redux/provider";
 
 export const metadata = {
