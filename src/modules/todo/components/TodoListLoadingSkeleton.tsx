@@ -1,30 +1,39 @@
 import React from 'react';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
 import Skeleton from '@mui/material/Skeleton';
+import TodayIcon from '@mui/icons-material/Today';
 
 const TodoListLoadingSkeleton = () => {
-    const arr = Array.from(Array(3).keys())
-    return arr.map(key => (
-        <Card key={key} sx={{ m: 2 }}>
-        <CardHeader
-          avatar={
-            <Skeleton animation="wave" variant="circular" width={40} height={40} />
-          }
-          title={
-            <Skeleton
-                animation="wave"
-                height={10}
-                width="20%"
-                style={{ marginBottom: 6 }}
+  const arr = Array.from(Array(3).keys())
+  return (
+    <List dense={false}>
+      {arr.map(key => (
+        <ListItem
+            key={key}
+            >
+            <ListItemAvatar>
+              <Avatar>
+                <TodayIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={
+                <Skeleton
+                  animation="wave"
+                  height={16}
+                  width="40%"
+                />
+              }
+              secondary={<Skeleton animation="wave" height={14} width="60%" />}
             />
-        }
-          subheader={
-            <Skeleton animation="wave" height={10} width="40%" />
-          }
-        />
-      </Card>
-    ))
+        </ListItem>
+      ))}
+    </List>
+  )
 }
 
 export default TodoListLoadingSkeleton

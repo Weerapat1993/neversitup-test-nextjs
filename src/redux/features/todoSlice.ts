@@ -1,33 +1,19 @@
 import { baseUrl, defaultHeaders } from "@/config/api";
+import type { CreateTodoPayload, IDTodoPayload, Todo, UpdateTodoPayload } from "@/modules/todo/@types/Todo";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 type TodoState = {
   isFetch: boolean;
   isLoading: boolean;
-  list: TodoList[];
+  list: Todo[];
   error: any;
   keys: object;
   isDeleting: boolean;
   isCreating: boolean;
+  isUpdating: boolean;
 };
 
-type TodoList = {
-    _id: string
-    title: string
-    description: string
-    createdAt: string
-    updatedAt: string
-}
-
-type IDPayload = {
-    id: string
-}
-
-type CreateTodoPayload = {
-  title: string
-  description: string
-}
 
 export const getTodoList = createAsyncThunk('getTodoList', async () => {
   try {
@@ -58,7 +44,25 @@ export const createTodo = createAsyncThunk('createTodo', async (payload: CreateT
   }
 })
 
-export const deleteTodoById = createAsyncThunk('deleteTodoById', async (payload: IDPayload) => {
+export const updateTodoById = createAsyncThunk('updateTodoById', async (payload: UpdateTodoPayload) => {
+  try {
+    const res = await axios({
+      url: baseUrl(`todos/${payload.id}`),
+      method: 'PUT',
+      headers: defaultHeaders(),
+      data: {
+        title: payload.title,
+        description: payload.description,
+      }
+    })
+    return res.data
+  } catch (e) {
+    console.error(e)
+    return e
+  }
+})
+
+export const deleteTodoById = createAsyncThunk('deleteTodoById', async (payload: IDTodoPayload) => {
   try {
     const res = await axios({
       url: baseUrl(`todos/${payload.id}`),
@@ -80,6 +84,7 @@ const initialState = {
   keys: {},
   isDeleting: false,
   isCreating: false,
+  isUpdating: false,
 } as TodoState;
 
 export const todo = createSlice({
@@ -119,6 +124,20 @@ export const todo = createSlice({
     },
     [`${createTodo.rejected}`]: (state, action) => {
         state.isCreating = false
+        state.error = action.payload
+    },
+     // UPDATE
+     [`${updateTodoById.pending}`]: (state) => {
+      state.isUpdating = true
+      state.error = null
+    },
+    [`${updateTodoById.fulfilled}`]: (state, action) => {
+        state.isFetch = false
+        state.isUpdating = false
+        state.error = null
+    },
+    [`${updateTodoById.rejected}`]: (state, action) => {
+        state.isUpdating = false
         state.error = action.payload
     },
     // DELETE

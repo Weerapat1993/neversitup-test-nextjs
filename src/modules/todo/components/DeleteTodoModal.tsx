@@ -13,17 +13,10 @@ import { deleteTodoById } from "@/redux/features/todoSlice";
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { LoadingButton } from '@mui/lab';
 import { usePrevious } from '@uidotdev/usehooks';
+import { Todo } from '../@types/Todo';
 
 type Props = {
 	data: Todo
-}
-
-type Todo = {
-	_id: string
-	title: string
-	description: string
-	createdAt: string
-	updatedAt: string
 }
 
 export default function DeleteTodoModal(props: Props) {

@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import cookies from "js-cookie";
 import { RootState } from '../store';
 
-export interface Todo {
+interface Todo {
   _id: string
   title: string
   description: string

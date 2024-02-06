@@ -2,28 +2,27 @@
 
 import { useState, Fragment, FormEvent, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import { styled } from '@mui/system';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import PlusIcon from '@mui/icons-material/Add';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
+import PlusIcon from '@mui/icons-material/PlusOne';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { usePrevious } from '@uidotdev/usehooks';
-import { createTodo } from '@/redux/features/todoSlice';
+import { updateTodoById } from '@/redux/features/todoSlice';
+import { Todo } from '../@types/Todo';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit'
 
-const FloatingArea = styled('div')({
-  position: 'absolute',
-  bottom: '3em',
-  right: '2em',
-});
+type Props = {
+	data: Todo
+}
 
-export default function CreateTodoModal() {
-	const isLoading = useAppSelector((state) => state.todoReducer.isCreating);
+export default function UpdateTodoModal(props: Props) {
+  const { data } = props
+  const isLoading = useAppSelector((state) => state.todoReducer.isUpdating);
   const isFetch = useAppSelector((state) => state.todoReducer.isFetch);
 	const isFetchPrev = usePrevious(isFetch);
   const dispatch = useAppDispatch();
@@ -46,12 +45,10 @@ export default function CreateTodoModal() {
 
   return (
     <Fragment>
-      <FloatingArea>
-        <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
-          <AddIcon />
-        </Fab>
-      </FloatingArea>
-      <Dialog
+      <IconButton edge="end" aria-label="edit" onClick={handleClickOpen}>
+        <EditIcon />
+      </IconButton>
+    <Dialog
         open={open}
         onClose={handleClose}
         PaperProps={{
@@ -60,11 +57,11 @@ export default function CreateTodoModal() {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries((formData as any).entries());
-						dispatch(createTodo(formJson))
+						dispatch(updateTodoById({ id: data._id, ...formJson }))
           },
         }}
       >
-        <DialogTitle>Create Todo</DialogTitle>
+        <DialogTitle>Update Todo</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -76,6 +73,7 @@ export default function CreateTodoModal() {
             type="text"
             fullWidth
             variant="standard"
+            defaultValue={data.title}
           />
           <TextField
             autoFocus
@@ -87,6 +85,7 @@ export default function CreateTodoModal() {
             type="text"
             fullWidth
             variant="standard"
+            defaultValue={data.description}
           />
         </DialogContent>
         <DialogActions>
@@ -96,11 +95,11 @@ export default function CreateTodoModal() {
             loading={isLoading}
             loadingPosition="start"
 						variant="contained"
-            color='primary'
+            color='success'
 						startIcon={<PlusIcon />}
 						disabled={isLoading}
         	>
-						Create
+						Update
 					</LoadingButton>
         </DialogActions>
       </Dialog>

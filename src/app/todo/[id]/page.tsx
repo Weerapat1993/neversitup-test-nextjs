@@ -1,5 +1,5 @@
 // import { useAppDispatch } from "@/redux/hooks";
-import { AuthModal } from "@/components/auth/AuthModal";
+import { AuthModal } from "@/modules/auth/AuthModal";
 import TodoDetail from "@/modules/todo/components/TodoList";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 

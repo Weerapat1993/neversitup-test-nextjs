@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { Fragment } from "react"
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -8,30 +8,28 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
-import FolderIcon from '@mui/icons-material/Folder';
+import TodayIcon from '@mui/icons-material/Today';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTodoList } from "../hooks/useTodoList";
 import TodoListLoadingSkeleton from "./TodoListLoadingSkeleton";
 import DeleteTodoModal from "./DeleteTodoModal";
-import LoadingButton from "@mui/lab/LoadingButton";
+import Fab from "@mui/material/Fab";
 import CreateTodoModal from "./CreateTodoModal";
+import UpdateTodoModal from "./UpdateTodoModal";
+import Typography from "@mui/material/Typography";
 
 const TodoList = () => {
     const { list, isLoading, refetch } = useTodoList()
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <h1>Todo List</h1>
-						<LoadingButton 
-							loading={isLoading}
-							loadingPosition="start"
-							variant="contained"
-							startIcon={<RefreshIcon />}
-							onClick={refetch}
-							disabled={isLoading}
-						>
-							Refresh
-						</LoadingButton>
-						&nbsp;
+						<Typography align="center" fontWeight="bold" variant="h4" component="h5">
+							TODO LIST
+						</Typography>
+						<center>
+							<Fab size="small" color="default" aria-label="refresh" onClick={refetch}>
+								<RefreshIcon />
+							</Fab>
+						</center>
 						<CreateTodoModal />
             <Grid item xs={12} md={6}>
                 {isLoading ? (
@@ -42,13 +40,17 @@ const TodoList = () => {
 											<ListItem
 												key={item._id}
 												secondaryAction={
-													<DeleteTodoModal data={item} />
+													<Fragment>
+														<UpdateTodoModal data={item} />
+														&nbsp;
+														<DeleteTodoModal data={item} />
+													</Fragment>										
 												}
 												>
 												<ListItemAvatar>
-														<Avatar>
-														<FolderIcon />
-														</Avatar>
+													<Avatar>
+														<TodayIcon />
+													</Avatar>
 												</ListItemAvatar>
 												<ListItemText
 														primary={item.title}

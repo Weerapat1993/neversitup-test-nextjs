@@ -2,7 +2,7 @@
 
 import { useAppSelector } from "@/redux/hooks";
 import TodoList from "../modules/todo/components/TodoList";
-import { AuthModal } from "@/components/auth/AuthModal";
+import { AuthModal } from "@/modules/auth/AuthModal";
 
 export default function Home() {
   const isLoggedIn = useAppSelector((state) => Boolean(state.authReducer?.data?.token));
