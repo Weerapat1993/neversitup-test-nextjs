@@ -8,7 +8,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import PlusIcon from '@mui/icons-material/PlusOne';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { usePrevious } from '@uidotdev/usehooks';
 import { updateTodoById } from '@/redux/features/todoSlice';
@@ -96,7 +95,7 @@ export default function UpdateTodoModal(props: Props) {
             loadingPosition="start"
 						variant="contained"
             color='success'
-						startIcon={<PlusIcon />}
+						startIcon={<EditIcon />}
 						disabled={isLoading}
         	>
 						Update

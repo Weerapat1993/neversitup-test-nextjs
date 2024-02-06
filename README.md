@@ -24,3 +24,6 @@ yarn
 ```sh
 yarn dev
 ```
+
+### Result
+![Result](image.png)
